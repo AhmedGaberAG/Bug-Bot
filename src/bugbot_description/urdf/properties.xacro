@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<robot name="bugbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="wheel_radius" value="0.033" />
+    <xacro:property name="wheel_separation" value="0.345"/>
+
+    <!-- material color -->
+    <material name="red">
+        <color rgba="1 0 0 1" />
+    </material>
+    <material name="green">
+        <color rgba="0 1 0 1" />
+    </material>
+    <material name="blue">
+        <color rgba="0 0 1 1" />
+    </material>
+    <material name="black">
+        <color rgba="0 0 0 1" />
+    </material>
+    <material name="silver">
+        <color rgba="0.79 0.82 0.93 1" />
+    </material>
+    <material name="dark_grey">
+        <color rgba="0.3 0.3 0.3 1" />
+    </material>
+            
+</robot>

@@ -1,0 +1,313 @@
+<?xml version="1.0"?>
+
+<robot name="bugbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="is_ignition" default="true"/>
+  <xacro:arg name="is_sim" default="true"/>
+  <xacro:include filename="$(find bugbot_description)/urdf/properties.xacro" />
+  <xacro:include filename="$(find bugbot_description)/urdf/gazebo.xacro" />
+  <xacro:include filename="$(find bugbot_description)/urdf/ros2_control.xacro" />
+
+  <link name="base_footprint" />
+    
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="7.41007313390574" />
+      <inertia ixx="0.0509968707889258" ixy="-9.99330596325484E-05" ixz="3.21297318479716E-05"
+               iyy="0.156701057379054" iyz="-3.95244307979123E-06"
+               izz="0.123084739293079" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://bugbot_description/meshes/base_link.STL" />
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://bugbot_description/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint" />
+    <child link="base_link" />
+    <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="wheel_right_link">
+    <inertial>
+      <origin xyz="2.9966632057747E-05 -0.000462157009511563 0.000573737751701497" rpy="0 0 0" />
+      <mass value="0.0405052027069856" />
+      <inertia ixx="1.83195590770226E-05" ixy="-2.40704340960879E-09" ixz="3.09338623356844E-11"
+               iyy="1.83544922459872E-05" iyz="-4.51061224631723E-10"
+               izz="3.08893987839664E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.0025" rpy="${pi / 2.0} 0 0" />
+      <geometry>
+        <mesh filename="package://bugbot_description/meshes/wheel_right_link.STL" />
+      </geometry>
+      <material name="blue" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="${pi / 2.0} 0 0" />
+      <geometry>
+        <sphere radius="${wheel_radius}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="wheel_right_joint" type="continuous">
+    <origin xyz="0 -${wheel_separation / 2.0} 0" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="wheel_right_link" />
+    <axis xyz="0 1 0" />
+  </joint>
+  
+  <link name="wheel_left_link">
+    <inertial>
+      <origin xyz="2.99666321085671E-05 -0.000462157009502014 0.000573737751708742" rpy="0 0 0" />
+      <mass value="0.04050520270701" />
+      <inertia ixx="1.83195590770189E-05" ixy="-2.40704340277232E-09" ixz="3.09338443241325E-11"
+              iyy="1.8354492245996E-05" iyz="-4.51061226065465E-10"
+              izz="3.08893987839665E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.0025" rpy="${pi / 2.0} 0 ${pi}" />
+      <geometry>
+        <mesh filename="package://bugbot_description/meshes/wheel_left_link.STL" />
+      </geometry>
+      <material name="blue" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="${pi / 2.0} 0 ${pi}" />
+      <geometry>
+        <sphere radius="${wheel_radius}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="wheel_left_joint" type="continuous">
+    <origin xyz="0 ${wheel_separation / 2.0} 0" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="wheel_left_link" />
+    <axis xyz="0 1 0" />
+  </joint>
+  
+  <link name="caster_wheel_front_right_link">
+    <inertial>
+      <origin xyz="0.000112106039951737 -0.0131001965791396 -0.00971891663055618" rpy="0 0 0" />
+      <mass value="0.0122759606521628" />
+      <inertia ixx="1.34725401056239E-06" ixy="-8.24603487839672E-13" ixz="6.97336376405891E-13"
+               iyy="1.26067796832324E-06" iyz="-4.08890600093688E-08"
+               izz="9.88954361954786E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="${pi / 2.0} 0 ${pi / 2.0}" />
+      <geometry>
+        <mesh filename="package://bugbot_description/meshes/caster_wheel_front_right_link.STL" />
+      </geometry>
+      <material name="red" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0218" rpy="${pi / 2.0} 0 ${pi / 2.0}" />
+      <geometry>
+        <sphere radius="0.015"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="caster_wheel_front_right_joint" type="fixed">
+    <origin xyz="0.0955 -0.111 0.0038" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="caster_wheel_front_right_link" />
+  </joint>
+
+  <link name="caster_wheel_rear_right_link">
+    <inertial>
+      <origin xyz="0.000112106039951723 -0.0131001965791396 -0.0097189166305562" rpy="0 0 0" />
+      <mass value="0.0122759606521629" />
+      <inertia ixx="1.34725401056239E-06" ixy="-8.24603487352677E-13" ixz="6.97336374295338E-13"
+               iyy="1.26067796832324E-06" iyz="-4.08890600093691E-08"
+               izz="9.88954361954787E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="${pi / 2.0} 0 ${pi / 2.0}" />
+      <geometry>
+        <mesh filename="package://bugbot_description/meshes/caster_wheel_rear_right_link.STL" />
+      </geometry>
+      <material name="red" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0218" rpy="${pi / 2.0} 0 ${pi / 2.0}" />
+      <geometry>
+        <sphere radius="0.015"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="caster_wheel_rear_right_joint" type="fixed">
+    <origin xyz="-0.0955 -0.111 0.0038" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="caster_wheel_rear_right_link" />
+  </joint>
+
+  <link name="caster_wheel_front_left_link">
+    <inertial>
+      <origin xyz="0.000112106039951709 -0.0131001965791396 -0.0097189166305562" rpy="0 0 0" />
+      <mass value="0.0122759606521628" />
+      <inertia ixx="1.34725401056239E-06" ixy="-8.24603488447077E-13" ixz="6.97336372983088E-13"
+               iyy="1.26067796832324E-06" iyz="-4.08890600093685E-08"
+               izz="9.88954361954786E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="${pi / 2.0} 0 ${pi / 2.0}" />
+      <geometry>
+        <mesh filename="package://bugbot_description/meshes/caster_wheel_front_left_link.STL" />
+      </geometry>
+      <material name="red" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0218" rpy="${pi / 2.0} 0 ${pi / 2.0}" />
+      <geometry>
+        <sphere radius="0.015"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="caster_wheel_front_left_joint" type="fixed">
+    <origin xyz="0.0955 0.111 0.0038" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="caster_wheel_front_left_link" />
+  </joint>
+
+  <link name="caster_wheel_rear_left_link">
+    <inertial>
+      <origin xyz="0.000112106039951695 -0.0131001965791396 -0.00971891663055618" rpy="0 0 0" />
+      <mass value="0.0122759606521629" />
+      <inertia ixx="1.34725401056239E-06" ixy="-8.24603488160826E-13" ixz="6.97336372103868E-13"
+               iyy="1.26067796832324E-06" iyz="-4.08890600093678E-08"
+               izz="9.88954361954787E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="${pi / 2.0} 0 ${pi / 2.0}" />
+      <geometry>
+        <mesh filename="package://bugbot_description/meshes/caster_wheel_rear_left_link.STL" />
+      </geometry>
+      <material name="red" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0218" rpy="${pi / 2.0} 0 ${pi / 2.0}" />
+      <geometry>
+        <sphere radius="0.015"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="caster_wheel_rear_left_joint" type="fixed">
+    <origin xyz="-0.0955 0.111 0.0038" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="caster_wheel_rear_left_link" />
+  </joint>
+  
+  <link name="laser_link">
+    <inertial>
+      <origin xyz="0.0119602386234975 -0.0188648851786651 0.000532090600498193" rpy="0 0 0" />
+      <mass value="0.0730845775624787" />
+      <inertia ixx="1.95808777217676E-05" ixy="-4.28390876245008E-07" ixz="1.03933503474904E-07"
+               iyy="4.14184561497332E-05" iyz="-9.42691862813383E-09"
+               izz="2.41250106139278E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="${pi / 2.0} 0 0" />
+      <geometry>
+        <mesh filename="package://bugbot_description/meshes/laser_link.STL" />
+      </geometry>
+      <material name="dark_grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="${pi / 2.0} 0 0" />
+      <geometry>
+        <mesh filename="package://bugbot_description/meshes/laser_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="laser_joint" type="fixed">
+    <origin xyz="-0.013 0 0.1966" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="laser_link" />
+  </joint>
+
+  <link name="camera_link">
+    <inertial>
+      <origin xyz="2.31886141846334E-06 -0.00106361339496942 0.000514343154120939" rpy="0 0 0" />
+      <mass value="0.00160268303296125" />
+      <inertia ixx="7.97031129777484E-08" ixy="1.01516385155868E-10" ixz="-8.24682348182656E-11"
+              iyy="5.65342538259048E-08" iyz="3.24601279852207E-09"
+              izz="1.26907371506857E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.8326 0 -${pi / 2.0}" />
+      <geometry>
+        <mesh filename="package://bugbot_description/meshes/camera_link.STL" />
+      </geometry>
+      <material name="green" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.8326 0 -${pi / 2.0}" />
+      <geometry>
+        <mesh filename="package://bugbot_description/meshes/camera_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="0.10963 -9.7232E-05 0.14782" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="camera_link" />
+  </joint>
+
+  <link name="camera_optical_frame" />
+
+  <joint name="camera_optical_joint" type="fixed">
+        <parent link="camera_link" />
+        <child link="camera_optical_frame" />
+        <origin xyz="0 0 0" rpy="${-pi / 2.0} 0 ${-pi / 2.0}" />
+  </joint>
+
+  <link name="imu_link">
+    <inertial>
+      <origin xyz="-3.13553361114513E-05 -1.22263926993099E-05 -0.000584623678458674" rpy="0 0 0" />
+      <mass value="0.000528415362211671" />
+      <inertia ixx="8.59427875965148E-09" ixy="7.39803301464265E-11" ixz="7.58988806787911E-12"
+               iyy="1.46199509127234E-08" iyz="1.72794631592685E-12"
+               izz="2.30279421279312E-08" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://bugbot_description/meshes/imu_link.STL" />
+      </geometry>
+      <material name="blue" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://bugbot_description/meshes/imu_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="imu_joint" type="fixed">
+    <origin xyz="0 0 0.0185" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="imu_link" />
+  </joint>
+
+</robot>
