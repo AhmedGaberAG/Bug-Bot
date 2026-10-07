@@ -1,0 +1,36 @@
+# ROS 2
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python environments
+.venv/
+venv/
+
+# ROS logs
+.ros/
+
+# Generated files
+*.bag
+*.db3
+
+# SolidWorks temporary files
+~$*
+*.tmp
+
+# Large CAD exports
+*.sldprt.bak
+*.sldasm.bak
