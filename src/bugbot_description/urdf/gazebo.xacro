@@ -64,9 +64,9 @@
   <gazebo>
     <!-- ROS 2 Humble -->
     <xacro:if value="$(arg is_ignition)">
-      <!-- <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+      <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
         <parameters>$(find bugbot_controller)/config/bugbot_controllers.yaml</parameters>
-      </plugin> -->
+      </plugin>
       <plugin filename="ignition-gazebo-imu-system" name="ignition::gazebo::systems::Imu">
       </plugin>
       <plugin filename="ignition-gazebo-sensors-system" name="ignition::gazebo::systems::Sensors">
@@ -76,9 +76,9 @@
 
     <!-- ROS 2 Iron or above -->
     <xacro:unless value="$(arg is_ignition)">
-      <!-- <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
         <parameters>$(find bugbot_controller)/config/bugbot_controllers.yaml</parameters>
-      </plugin> -->
+      </plugin>
       <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu">
       </plugin>
       <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
