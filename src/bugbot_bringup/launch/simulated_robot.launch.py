@@ -42,7 +42,15 @@ def generate_launch_description():
         }.items()
     )
 
-    localization = IncludeLaunchDescription(
+    local_localization = IncludeLaunchDescription(
+        os.path.join(
+            get_package_share_directory("bugbot_localization"),
+            "launch",
+            "local_localization.launch.py"
+        ),
+    )
+    
+    global_localization = IncludeLaunchDescription(
         os.path.join(
             get_package_share_directory("bugbot_localization"),
             "launch",
@@ -86,7 +94,8 @@ def generate_launch_description():
         gazebo,
         controller,
         joystick,
-        localization,
+        local_localization,
+        global_localization,
         slam,
         navigation,
         rviz,

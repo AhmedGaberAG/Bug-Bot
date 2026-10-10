@@ -63,5 +63,4 @@ amcl:
 
     # Pose Persistence
     save_pose_rate: 0.5
-    do_beamskip: false
     first_map_only: false
